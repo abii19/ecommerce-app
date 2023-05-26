@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Colors */
+  --color-primary: #fbebb5;
+  --color-secondary: #faf4f4;
+  --color-content-primary: #000000;
+  --color-content-secondary: #9f9f9f;
+  /* Font-size */
+  --fs-heading: 64px;
+  --fs-title: 36px;
+  --fs-subtitle: 24px;
+  --fs-caption: 20px;
+  --fs-body: 16px;
+  /* Line height */
+  --lh-heading: 96px;
+  --lh-title: 54px;
+  --lh-subtitle: 36px;
+  --lh-caption: 30px;
+  --lh-body: 24px;
+}
+
+.link {
+  color: var(--color-primary);
+}

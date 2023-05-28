@@ -22,6 +22,14 @@
   --lh-body: 24px;
 }
 
-.link {
-  color: var(--color-primary);
+body {
+  @apply text-content-primary;
+}
+.header {
+  height: calc(100vh - 100px);
+  min-height: 700px;
+}
+
+.link-btn {
+  @apply pb-3 border-b border-content-primary;
 }

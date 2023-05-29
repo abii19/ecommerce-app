@@ -1,14 +1,14 @@
 import React from "react";
 import Header from "./Header";
-import ShopItems from "./ShopItems";
+import AddShops from "./AddShops";
 
-const ShopPage = () => {
+const ContactPage = () => {
   return (
     <>
       <Header />
-      <ShopItems />
+      <AddShops />
     </>
   );
 };
 
-export default ShopPage;
+export default ContactPage;

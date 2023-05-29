@@ -10,3 +10,4 @@ export { default as DiningTable } from "./dining-table.png";
 export { default as InstagramBackground } from "./instagram-background.png";
 export { default as OutdoorBarTable } from "./outdoor-bar-table.png";
 export { default as RocketSingleSeater } from "./rocket-single-seater.png";
+export { default as MenbelLogo } from "./meubel-logo.png";

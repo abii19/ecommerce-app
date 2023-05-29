@@ -33,3 +33,13 @@ body {
 .link-btn {
   @apply pb-3 border-b border-content-primary;
 }
+.shop-header {
+  background-image: url("./assets/images/shop-background.png");
+  background-size: contain;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  @apply px-4 py-2 rounded border border-content-secondary w-full mt-0.5;
+}

@@ -23,7 +23,7 @@ const shopItems = [
     price: 25000
   },
   {
-    id: 3,
+    id: 4,
     image: Images.ConsoleMirror,
     title: "Plain console with teak mirror",
     price: 25000

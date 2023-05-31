@@ -6,10 +6,11 @@ const AddShops = () => {
   const [datas, setDatas] = useState([]);
   const [values, setValues] = useState({
     image: "",
-    title: "jhkj",
+    title: "",
     price: "",
     details: ""
   });
+  const [isEdit, setIsEdit] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
@@ -22,9 +23,26 @@ const AddShops = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
-    const id = uuidv4();
-    setDatas([{ id, ...values }, ...datas]); //
+    if (isEdit) {
+      //Edit
+      const index = datas.findIndex((data) => data.id === values.id);
+      // Slice
+      // setDatas([...datas.slice(0, index), values, ...datas.slice(index + 1)]);
+
+      // Splice
+      const newDatas = [...datas];
+      newDatas.splice(index, 1, values);
+      setDatas(newDatas);
+
+      // Edit data in last or first | Filter
+      // const newDatas = datas.filter((data) => data.id !== values.id);
+      // setDatas([values, ...newDatas]);
+
+      setIsEdit(false);
+    } else {
+      const id = uuidv4();
+      setDatas([{ id, ...values }, ...datas]);
+    }
     setValues({
       image: "",
       title: "",
@@ -37,6 +55,21 @@ const AddShops = () => {
     fileRef.current.click();
   };
 
+  const handleDelete = (id) => {
+    // Splice
+    // const index = datas.findIndex((data) => data.id === id);
+    // const newDatas = [...datas];
+    // newDatas.splice(index, 1);
+    // setDatas(newDatas);
+    //Filter
+    setDatas(datas.filter((data) => data.id !== id));
+  };
+
+  const handleEdit = (data) => {
+    setIsEdit(true);
+    // const editData = datas.find((data) => data.id === id);
+    setValues(data);
+  };
   return (
     <>
       <div className="container py-10">
@@ -100,7 +133,7 @@ const AddShops = () => {
                 type="submit"
                 className="px-8 py-3 rounded-md bg-primary text-content-primary text-body"
               >
-                Submit
+                {isEdit ? "Update" : "Submit"}
               </button>
             </form>
           </div>
@@ -120,7 +153,7 @@ const AddShops = () => {
                 <tbody>
                   {datas.map((data, index) => {
                     return (
-                      <tr key={index} className="border-b">
+                      <tr key={data.id} className="border-b">
                         <td className="px-4 py-2">{data.id}</td>
                         <td className="px-4 py-2">
                           {data.image && (
@@ -135,10 +168,16 @@ const AddShops = () => {
                         <td className="px-4 py-2">{data.price}</td>
                         <td className="px-4 py-2">{data.details}</td>
                         <td className="px-4 py-2">
-                          <button className="px-3 text-sm py-2 rounded bg-blue-300">
+                          <button
+                            className="px-3 text-sm py-2 rounded bg-blue-300"
+                            onClick={() => handleEdit(data)}
+                          >
                             Edit
                           </button>
-                          <button className="px-3 text-sm py-2 rounded bg-red-400 ml-2">
+                          <button
+                            className="px-3 text-sm py-2 rounded bg-red-400 ml-2"
+                            onClick={() => handleDelete(data.id)}
+                          >
                             Delete
                           </button>
                         </td>

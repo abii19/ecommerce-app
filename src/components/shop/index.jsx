@@ -2,11 +2,11 @@ import React from "react";
 import Header from "./Header";
 import ShopItems from "./ShopItems";
 
-const ShopPage = () => {
+const ShopPage = ({ datas }) => {
   return (
     <>
       <Header />
-      <ShopItems />
+      <ShopItems datas={datas} />
     </>
   );
 };

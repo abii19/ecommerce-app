@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const AddShops = () => {
+const AddShops = ({ datas, setDatas }) => {
   const fileRef = useRef(null);
-  const [datas, setDatas] = useState([]);
+  // const [datas, setDatas] = useState([]);
   const [values, setValues] = useState({
     image: "",
     title: "",
@@ -31,7 +31,8 @@ const AddShops = () => {
 
       // Splice
       const newDatas = [...datas];
-      newDatas.splice(index, 1, values);
+      const currentTimeStamp = Math.floor(Date.now() / 1000);
+      newDatas.splice(index, 1, { ...values, updatedAt: currentTimeStamp });
       setDatas(newDatas);
 
       // Edit data in last or first | Filter
@@ -41,7 +42,11 @@ const AddShops = () => {
       setIsEdit(false);
     } else {
       const id = uuidv4();
-      setDatas([{ id, ...values }, ...datas]);
+      const currentTimeStamp = Math.floor(Date.now() / 1000);
+      setDatas([
+        { id, ...values, createdAt: currentTimeStamp, updatedAt: "" },
+        ...datas
+      ]);
     }
     setValues({
       image: "",
@@ -120,7 +125,6 @@ const AddShops = () => {
               <div className="mb-4">
                 <label className="text-body">Details</label>
                 <textarea
-                  type="number"
                   name="details"
                   value={values.details}
                   onChange={handleChange}
@@ -147,6 +151,7 @@ const AddShops = () => {
                     <th className="px-4 py-2">Title</th>
                     <th className="px-4 py-2">Price</th>
                     <th className="px-4 py-2">Details</th>
+                    <th className="px-4 py-2">Created At</th>
                     <th className="px-4 py-2">Action</th>
                   </tr>
                 </thead>
@@ -167,6 +172,7 @@ const AddShops = () => {
                         <td className="px-4 py-2">{data.title}</td>
                         <td className="px-4 py-2">{data.price}</td>
                         <td className="px-4 py-2">{data.details}</td>
+                        <td className="px-4 py-2">{data.createdAt}</td>
                         <td className="px-4 py-2">
                           <button
                             className="px-3 text-sm py-2 rounded bg-blue-300"

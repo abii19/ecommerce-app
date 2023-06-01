@@ -4,12 +4,12 @@ import Blogs from "./Blogs";
 import Header from "./Header";
 import TopPicks from "./TopPicks";
 
-const HomePage = () => {
+const HomePage = (props) => {
   return (
     <>
       <Header />
       <Categories />
-      <TopPicks />
+      <TopPicks {...props} />
       <Blogs />
     </>
   );

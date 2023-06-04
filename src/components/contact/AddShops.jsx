@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 const AddShops = ({ datas, setDatas }) => {
   const fileRef = useRef(null);
@@ -21,7 +22,7 @@ const AddShops = ({ datas, setDatas }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isEdit) {
       //Edit
@@ -39,6 +40,17 @@ const AddShops = ({ datas, setDatas }) => {
       // const newDatas = datas.filter((data) => data.id !== values.id);
       // setDatas([values, ...newDatas]);
 
+      //Edit Backend
+      try {
+        const response = await axios.put(
+          `http://localhost:5000/shops/${values.id}`,
+          { ...values, updatedAt: currentTimeStamp }
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+
       setIsEdit(false);
     } else {
       const id = uuidv4();
@@ -47,6 +59,19 @@ const AddShops = ({ datas, setDatas }) => {
         { id, ...values, createdAt: currentTimeStamp, updatedAt: "" },
         ...datas
       ]);
+
+      // Backend
+      try {
+        const response = await axios.post("http://localhost:5000/shops", {
+          id,
+          ...values,
+          createdAt: currentTimeStamp,
+          updatedAt: ""
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     }
     setValues({
       image: "",

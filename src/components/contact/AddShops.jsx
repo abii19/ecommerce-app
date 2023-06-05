@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
+import { instance } from "../api/api";
 
 const AddShops = ({ datas, setDatas }) => {
   const fileRef = useRef(null);
@@ -58,14 +58,11 @@ const AddShops = ({ datas, setDatas }) => {
 
       //Edit Backend
       try {
-        const response = await axios.put(
-          `http://localhost:5000/shops/${values.id}`,
-          {
-            ...values,
-            image: base64Image ? base64Image : values.image,
-            updatedAt: currentTimeStamp
-          }
-        );
+        const response = await instance.put(`/shops/${values.id}`, {
+          ...values,
+          image: base64Image ? base64Image : values.image,
+          updatedAt: currentTimeStamp
+        });
         console.log(response);
       } catch (error) {
         console.log(error);
@@ -88,7 +85,7 @@ const AddShops = ({ datas, setDatas }) => {
 
       // Backend
       try {
-        const response = await axios.post("http://localhost:5000/shops", {
+        const response = await instance.post("/shops", {
           id,
           ...values,
           image: base64Image,

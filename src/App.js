@@ -4,14 +4,14 @@ import HomePage from "./components/home";
 import ShopPage from "./components/shop";
 import Layout from "./components/layouts/Layout";
 import ContactPage from "./components/contact";
-import axios from "axios";
+import { instance } from "./components/api/api";
 
 const App = () => {
   const [datas, setDatas] = useState([]);
 
   const fetchShopsItems = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/shops`);
+      const response = await instance.get(`/shops`);
       console.log(response.data);
       setDatas(response.data);
     } catch (error) {

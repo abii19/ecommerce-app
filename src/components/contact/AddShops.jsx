@@ -12,11 +12,22 @@ const AddShops = ({ datas, setDatas }) => {
     details: ""
   });
   const [isEdit, setIsEdit] = useState(false);
+  const [base64Image, setBase64Image] = useState("");
+
+  const convertToBase64 = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      console.log("called: ", reader);
+      setBase64Image(reader.result);
+    };
+  };
 
   const handleChange = (e) => {
     const { name, value, type } = e.target;
     if (type === "file") {
       setValues({ ...values, [name]: e.target.files[0] });
+      convertToBase64(e.target.files[0]);
     } else {
       setValues({ ...values, [name]: value });
     }
@@ -33,7 +44,12 @@ const AddShops = ({ datas, setDatas }) => {
       // Splice
       const newDatas = [...datas];
       const currentTimeStamp = Math.floor(Date.now() / 1000);
-      newDatas.splice(index, 1, { ...values, updatedAt: currentTimeStamp });
+      //values: image, base64Image
+      newDatas.splice(index, 1, {
+        ...values,
+        image: base64Image ? base64Image : values.image,
+        updatedAt: currentTimeStamp
+      });
       setDatas(newDatas);
 
       // Edit data in last or first | Filter
@@ -44,7 +60,11 @@ const AddShops = ({ datas, setDatas }) => {
       try {
         const response = await axios.put(
           `http://localhost:5000/shops/${values.id}`,
-          { ...values, updatedAt: currentTimeStamp }
+          {
+            ...values,
+            image: base64Image ? base64Image : values.image,
+            updatedAt: currentTimeStamp
+          }
         );
         console.log(response);
       } catch (error) {
@@ -56,7 +76,13 @@ const AddShops = ({ datas, setDatas }) => {
       const id = uuidv4();
       const currentTimeStamp = Math.floor(Date.now() / 1000);
       setDatas([
-        { id, ...values, createdAt: currentTimeStamp, updatedAt: "" },
+        {
+          id,
+          ...values,
+          image: base64Image,
+          createdAt: currentTimeStamp,
+          updatedAt: ""
+        },
         ...datas
       ]);
 
@@ -65,6 +91,7 @@ const AddShops = ({ datas, setDatas }) => {
         const response = await axios.post("http://localhost:5000/shops", {
           id,
           ...values,
+          image: base64Image,
           createdAt: currentTimeStamp,
           updatedAt: ""
         });
@@ -79,6 +106,7 @@ const AddShops = ({ datas, setDatas }) => {
       price: "",
       details: ""
     });
+    setBase64Image("");
   };
 
   const chooseImage = () => {
@@ -188,7 +216,7 @@ const AddShops = ({ datas, setDatas }) => {
                         <td className="px-4 py-2">
                           {data.image && (
                             <img
-                              src={URL.createObjectURL(data.image)}
+                              src={data.image}
                               alt=""
                               className="w-16 h-16 object-contain"
                             />

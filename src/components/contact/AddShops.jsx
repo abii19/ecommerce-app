@@ -1,6 +1,11 @@
 import React, { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { instance } from "../api/api";
+import {
+  deleteShopItem,
+  fetchShopsItems,
+  saveShopItems,
+  updateShopItems
+} from "../utils/shopsApiActions";
 
 const AddShops = ({ datas, setDatas }) => {
   const fileRef = useRef(null);
@@ -37,65 +42,57 @@ const AddShops = ({ datas, setDatas }) => {
     e.preventDefault();
     if (isEdit) {
       //Edit
-      const index = datas.findIndex((data) => data.id === values.id);
+      // const index = datas.findIndex((data) => data.id === values.id);
+      const currentTimeStamp = Math.floor(Date.now() / 1000);
       // Slice
       // setDatas([...datas.slice(0, index), values, ...datas.slice(index + 1)]);
 
       // Splice
-      const newDatas = [...datas];
-      const currentTimeStamp = Math.floor(Date.now() / 1000);
+      // const newDatas = [...datas];
       //values: image, base64Image
-      newDatas.splice(index, 1, {
-        ...values,
-        image: base64Image ? base64Image : values.image,
-        updatedAt: currentTimeStamp
-      });
-      setDatas(newDatas);
+      // newDatas.splice(index, 1, {
+      //   ...values,
+      //   image: base64Image ? base64Image : values.image,
+      //   updatedAt: currentTimeStamp
+      // });
+      // setDatas(newDatas);
 
       // Edit data in last or first | Filter
       // const newDatas = datas.filter((data) => data.id !== values.id);
       // setDatas([values, ...newDatas]);
 
       //Edit Backend
-      try {
-        const response = await instance.put(`/shops/${values.id}`, {
-          ...values,
-          image: base64Image ? base64Image : values.image,
-          updatedAt: currentTimeStamp
-        });
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
+      await updateShopItems({
+        ...values,
+        image: base64Image ? base64Image : values.image,
+        updatedAt: currentTimeStamp
+      });
+      await fetchShopsItems(setDatas);
 
       setIsEdit(false);
     } else {
       const id = uuidv4();
       const currentTimeStamp = Math.floor(Date.now() / 1000);
-      setDatas([
-        {
-          id,
-          ...values,
-          image: base64Image,
-          createdAt: currentTimeStamp,
-          updatedAt: ""
-        },
-        ...datas
-      ]);
+      // setDatas([
+      //   {
+      //     id,
+      //     ...values,
+      //     image: base64Image,
+      //     createdAt: currentTimeStamp,
+      //     updatedAt: ""
+      //   },
+      //   ...datas
+      // ]);
 
       // Backend
-      try {
-        const response = await instance.post("/shops", {
-          id,
-          ...values,
-          image: base64Image,
-          createdAt: currentTimeStamp,
-          updatedAt: ""
-        });
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
+      await saveShopItems({
+        id,
+        ...values,
+        image: base64Image,
+        createdAt: currentTimeStamp,
+        updatedAt: ""
+      });
+      await fetchShopsItems(setDatas);
     }
     setValues({
       image: "",
@@ -110,14 +107,18 @@ const AddShops = ({ datas, setDatas }) => {
     fileRef.current.click();
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     // Splice
     // const index = datas.findIndex((data) => data.id === id);
     // const newDatas = [...datas];
     // newDatas.splice(index, 1);
     // setDatas(newDatas);
     //Filter
-    setDatas(datas.filter((data) => data.id !== id));
+
+    await deleteShopItem(id);
+    await fetchShopsItems(setDatas);
+
+    // setDatas(datas.filter((data) => data.id !== id));
   };
 
   const handleEdit = (data) => {

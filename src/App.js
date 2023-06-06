@@ -4,23 +4,18 @@ import HomePage from "./components/home";
 import ShopPage from "./components/shop";
 import Layout from "./components/layouts/Layout";
 import ContactPage from "./components/contact";
-import { instance } from "./components/api/api";
+import { fetchShopsItems } from "./components/utils/shopsApiActions";
 
 const App = () => {
   const [datas, setDatas] = useState([]);
 
-  const fetchShopsItems = async () => {
-    try {
-      const response = await instance.get(`/shops`);
-      console.log(response.data);
-      setDatas(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    fetchShopsItems();
+    // (async () => {
+    //   const data = await fetchShopsItems();
+    //   console.log(data);
+    //   setDatas(data);
+    // })();
+    fetchShopsItems(setDatas);
   }, []);
 
   return (

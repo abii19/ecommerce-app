@@ -14,7 +14,7 @@ import { instance } from "../api/api";
 export const fetchShopsItems = async (setDatas) => {
   try {
     const response = await instance.get(`/shops`);
-    console.log(response.data);
+    // console.log(response.data);
     setDatas(response.data);
   } catch (error) {
     console.log(error);
@@ -24,10 +24,12 @@ export const fetchShopsItems = async (setDatas) => {
 export const fetchShopsItemsById = async (id) => {
   try {
     const response = await instance.get(`/shops/${id}`);
-    console.log(response.data); //{}
-    // setDatas(response.data);
+    // console.log(response.data); //{}
+    // return { message: "success", data: response.data };
+    return response.data;
   } catch (error) {
     console.log(error);
+    // return { message: "error" };
   }
 };
 

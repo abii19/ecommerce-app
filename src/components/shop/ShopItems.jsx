@@ -11,6 +11,7 @@ const ShopItems = ({ datas }) => {
             return (
               <ShopItemsCard
                 key={item.id}
+                id={item.id}
                 src={item.image}
                 title={item.title}
                 price={item.price}

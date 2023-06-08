@@ -6,9 +6,12 @@ import {
   saveShopItems,
   updateShopItems
 } from "../utils/shopsApiActions";
+import { useDispatch } from "react-redux";
+import { increment, decrement } from "../features/datas/datasAction";
 
 const AddShops = ({ datas, setDatas }) => {
   const fileRef = useRef(null);
+  const dispatch = useDispatch();
   // const [datas, setDatas] = useState([]);
   const [values, setValues] = useState({
     image: "",
@@ -129,6 +132,15 @@ const AddShops = ({ datas, setDatas }) => {
   return (
     <>
       <div className="container py-10">
+        {/* -------------- */}
+        <button className="btn" onClick={() => dispatch(increment())}>
+          Increment
+        </button>
+        <button className="button" onClick={() => dispatch(decrement())}>
+          Decrement
+        </button>
+
+        {/* ------------------------ */}
         <div className="grid grid-cols-3 gap-14">
           <div className="">
             <form onSubmit={handleSubmit}>

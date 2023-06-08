@@ -32,7 +32,7 @@ const App = () => {
             path="/contact"
             element={<ContactPage datas={datas} setDatas={setDatas} />}
           />
-          <Route path="*" element={<>Page Not Found</>} />
+          <Route path="*" element={<div>Page Not Found</div>} />
         </Route>
       </Routes>
     </>

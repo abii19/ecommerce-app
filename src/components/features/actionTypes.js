@@ -1,0 +1,3 @@
+export const INCREMENT = "INCREMENT";
+export const INCREMENT_BY_NUMBER = "INCREMENT_BY_NUMBER";
+export const DECREMENT = "DECREMENT";

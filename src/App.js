@@ -6,9 +6,11 @@ import Layout from "./components/layouts/Layout";
 import ContactPage from "./components/contact";
 import { fetchShopsItems } from "./components/utils/shopsApiActions";
 import ShopDetails from "./components/shop/ShopDetails";
+import { useDispatch } from "react-redux";
 
 const App = () => {
   const [datas, setDatas] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // (async () => {
@@ -16,7 +18,9 @@ const App = () => {
     //   console.log(data);
     //   setDatas(data);
     // })();
-    fetchShopsItems(setDatas);
+    // dispatch(saveShopsData());
+    fetchShopsItems(setDatas, dispatch);
+    // eslint-disable-next-line
   }, []);
 
   return (

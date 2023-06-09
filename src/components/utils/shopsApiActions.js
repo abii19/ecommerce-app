@@ -1,4 +1,5 @@
 import { instance } from "../api/api";
+import { saveShopsData } from "../features/shops/shopsAction";
 
 // export const fetchShopsItems = async () => {
 //   try {
@@ -11,11 +12,12 @@ import { instance } from "../api/api";
 //   }
 // };
 
-export const fetchShopsItems = async (setDatas) => {
+export const fetchShopsItems = async (setDatas, dispatch) => {
   try {
     const response = await instance.get(`/shops`);
     // console.log(response.data);
     setDatas(response.data);
+    dispatch(saveShopsData(response.data));
   } catch (error) {
     console.log(error);
   }

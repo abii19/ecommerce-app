@@ -7,7 +7,11 @@ import {
   updateShopItems
 } from "../utils/shopsApiActions";
 import { useDispatch } from "react-redux";
-import { increment, decrement } from "../features/datas/datasAction";
+import {
+  increment,
+  decrement,
+  incrementByNumber
+} from "../features/datas/datasAction";
 
 const AddShops = ({ datas, setDatas }) => {
   const fileRef = useRef(null);
@@ -129,10 +133,25 @@ const AddShops = ({ datas, setDatas }) => {
     // const editData = datas.find((data) => data.id === id);
     setValues(data);
   };
+
+  // Redux
+  const [inputValue, setInputValue] = useState(0);
+  const handleIncrementByNumber = (e) => {
+    e.preventDefault();
+    dispatch(incrementByNumber(inputValue));
+  };
   return (
     <>
       <div className="container py-10">
         {/* -------------- */}
+        <form onSubmit={handleIncrementByNumber}>
+          <input
+            type="number"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <button type="submit">Increment by Numver</button>
+        </form>
         <button className="btn" onClick={() => dispatch(increment())}>
           Increment
         </button>

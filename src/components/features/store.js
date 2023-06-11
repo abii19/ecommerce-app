@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { combineReducers } from "redux";
 import { datasReducer } from "./datas/datasReducer";
@@ -12,5 +12,5 @@ const reducers = combineReducers({
 
 export const store = createStore(
   reducers,
-  compose(composeWithDevTools(), applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk))
 );

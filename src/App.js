@@ -4,9 +4,10 @@ import HomePage from "./components/home";
 import ShopPage from "./components/shop";
 import Layout from "./components/layouts/Layout";
 import ContactPage from "./components/contact";
-import { fetchShopsItems } from "./components/utils/shopsApiActions";
+// import { fetchShopsItems } from "./components/utils/shopsApiActions";
 import ShopDetails from "./components/shop/ShopDetails";
 import { useDispatch } from "react-redux";
+import { fetchAndSaveShopsData } from "./components/features/shops/shopsAction";
 
 const App = () => {
   const [datas, setDatas] = useState([]);
@@ -19,7 +20,10 @@ const App = () => {
     //   setDatas(data);
     // })();
     // dispatch(saveShopsData());
-    fetchShopsItems(setDatas, dispatch);
+
+    // fetchShopsItems(setDatas, dispatch);
+    dispatch(fetchAndSaveShopsData());
+
     // eslint-disable-next-line
   }, []);
 

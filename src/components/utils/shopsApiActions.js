@@ -17,7 +17,7 @@ export const fetchShopsItems = async (setDatas, dispatch) => {
     const response = await instance.get(`/shops`);
     // console.log(response.data);
     setDatas(response.data);
-    dispatch(saveShopsData(response.data));
+    dispatch && dispatch(saveShopsData(response.data));
   } catch (error) {
     console.log(error);
   }

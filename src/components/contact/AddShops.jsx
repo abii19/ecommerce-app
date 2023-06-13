@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   deleteShopItem,
@@ -25,6 +25,7 @@ const AddShops = ({ datas, setDatas }) => {
   });
   const [isEdit, setIsEdit] = useState(false);
   const [base64Image, setBase64Image] = useState("");
+  const [search, setSearch] = useState("");
 
   // Errors
   const [errors, setErrors] = useState({
@@ -192,6 +193,21 @@ const AddShops = ({ datas, setDatas }) => {
     dispatch(incrementByNumber(inputValue));
   };
 
+  const filteredData = useMemo(() => {
+    let filteredMemoData = datas;
+    if (search) {
+      filteredMemoData = filteredMemoData.filter(
+        (item) =>
+          item.title
+            .trim()
+            .toLowerCase()
+            .includes(search.trim().toLowerCase()) ||
+          item.price.includes(search.toLowerCase())
+      );
+    }
+    return filteredMemoData;
+  }, [search, datas]);
+
   return (
     <>
       <div className="container py-10">
@@ -288,6 +304,15 @@ const AddShops = ({ datas, setDatas }) => {
           </div>
           <div className="col-span-2">
             <div className="mt-8">
+              <div className="mb-4">
+                <input
+                  type="text"
+                  className=""
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search with title and price..."
+                />
+              </div>
               <table className="w-full">
                 <thead>
                   <tr className="text-left bg-primary">
@@ -301,7 +326,7 @@ const AddShops = ({ datas, setDatas }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {datas.map((data, index) => {
+                  {filteredData.map((data, index) => {
                     return (
                       <tr key={data.id} className="border-b">
                         <td className="px-4 py-2">{data.id}</td>
